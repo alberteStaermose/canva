@@ -160,15 +160,13 @@ function draw() {
 
   if (fontLoaded == true) drawText();
 
-  //   document.addEventListener('click' (e) => {
-  //     if (e == true) {
-  //         newColor();
-  //     } else {
-  // requestAnimationFrame(draw);
-  //     }
-  //   })
-
-  requestAnimationFrame(draw);
+  document.addEventListener("click", (mouseOver) => {
+    if (mouseOver == true) {
+      drawNewColor();
+    } else {
+      requestAnimationFrame(draw);
+    }
+  });
 }
 
 draw();
@@ -212,7 +210,25 @@ function drawText() {
   ctx.closePath();
 }
 
-function newColor() {
+function drawNewColor() {
+  console.log("Ny farve funktion");
+  ctx.shadowBlur = 0;
+  ctx.shadowColor = null;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  offsetX += Math.round(Math.random() * 2 - 1);
+  offsetY += Math.round(Math.random() * 2 - 1);
+
+  //Baggrund
+  const gradient = ctx.createRadialGradient(540, 540, 5, 540, 540, 600);
+  // Farverne i gradienten
+  gradient.addColorStop(0, "red");
+  gradient.addColorStop(1, "blueviolet");
+  //Gradienten
+  ctx.beginPath();
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 1080, 1080);
+
   //Gradient til kroppen
   const gradientBody = ctx.createLinearGradient(
     300 + offsetX,
@@ -336,7 +352,12 @@ function newColor() {
   ctx.lineTo(420 + offsetX, 360 + offsetY);
   ctx.lineWidth = 15;
   ctx.stroke();
+
+  if (fontLoaded == true) drawText();
+  requestAnimationFrame(draw);
 }
+
+draw();
 
 //FONT
 //Fortæller at en font skal tilføjes til listen af fonte
