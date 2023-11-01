@@ -14,6 +14,7 @@ let colors = {
 let offsetX = 0;
 let offsetY = 0;
 let fontLoaded = false;
+let mouseOver = false;
 
 function draw() {
   ctx.shadowBlur = 0;
@@ -158,6 +159,15 @@ function draw() {
   ctx.stroke();
 
   if (fontLoaded == true) drawText();
+
+  //   document.addEventListener('click' (e) => {
+  //     if (e == true) {
+  //         newColor();
+  //     } else {
+  // requestAnimationFrame(draw);
+  //     }
+  //   })
+
   requestAnimationFrame(draw);
 }
 
@@ -200,6 +210,132 @@ function drawText() {
   ctx.lineWidth = 2;
   ctx.strokeText("EDITION", x, 970);
   ctx.closePath();
+}
+
+function newColor() {
+  //Gradient til kroppen
+  const gradientBody = ctx.createLinearGradient(
+    300 + offsetX,
+    500 + offsetY,
+    300 + offsetX,
+    700 + offsetY
+  );
+  // Farverne i gradienten
+  gradientBody.addColorStop(0, colors.bodyTwo);
+  gradientBody.addColorStop(0.5, colors.body);
+  gradientBody.addColorStop(1, colors.head);
+
+  //Gradient til benene
+  const gradientLegs = ctx.createLinearGradient(
+    300 + offsetX,
+    400 + offsetY,
+    300 + offsetX,
+    700 + offsetY
+  );
+  // Farverne i gradienten
+  gradientLegs.addColorStop(0, "black");
+  gradientLegs.addColorStop(1, colors.legs);
+
+  // Hoved
+  //Dobbelhage
+  ctx.beginPath();
+  ctx.fillStyle = gradientBody;
+  ctx.arc(350 + offsetX, 500 + offsetY, 180, 0, Math.PI * 0.815, false);
+  ctx.fill();
+  //Pande
+  ctx.beginPath();
+  ctx.fillStyle = gradientBody;
+  ctx.arc(500 + offsetX, 600 + offsetY, 300, 0, Math.PI, true);
+  ctx.fill();
+
+  // Bagdel
+  //Runding på bagdel
+  ctx.beginPath();
+  ctx.fillStyle = gradientBody;
+  ctx.arc(700 + offsetX, 500 + offsetY, 200, 0, Math.PI, true);
+  ctx.fill();
+  //Fladt stykke efter runding på nummi og inden hale
+  ctx.beginPath;
+  ctx.fillStyle = gradientBody;
+  ctx.fillRect(700 + offsetX, 500 + offsetY, 200, 100);
+
+  // Krop
+  //Selve kroppen
+  ctx.beginPath();
+  ctx.fillStyle = gradientBody;
+  ctx.fillRect(500 + offsetX, 300 + offsetY, 200, 300);
+  //Forben
+  ctx.beginPath();
+  ctx.fillStyle = gradientLegs;
+  ctx.fillRect(500 + offsetX, 600 + offsetY, 50, 100);
+  //Forbenfod
+  ctx.beginPath();
+  ctx.fillStyle = gradientLegs;
+  ctx.roundRect(475 + offsetX, 650 + offsetY, 25, 50, [10, 0, 0, 10]);
+  ctx.fill();
+  //Bagben
+  ctx.beginPath();
+  ctx.fillStyle = gradientLegs;
+  ctx.fillRect(650 + offsetX, 600 + offsetY, 50, 100);
+  //BagbenFod
+  ctx.beginPath();
+  ctx.fillStyle = gradientLegs;
+  ctx.roundRect(625 + offsetX, 650 + offsetY, 25, 50, [10, 0, 0, 10]);
+  ctx.fill();
+
+  //Hale
+  //Den store del af halen
+  //Gradient til den store del af halen deffineret
+  const gradientTail = ctx.createRadialGradient(
+    860 + offsetX,
+    600 + offsetY,
+    40,
+    800 + offsetX,
+    600 + offsetY,
+    100
+  );
+  // Farverne i gradienten
+  gradientTail.addColorStop(0, colors.body);
+  gradientTail.addColorStop(1, colors.tipTail);
+  //Den store del af halen starter
+  ctx.beginPath();
+  ctx.fillStyle = gradientTail;
+  ctx.arc(800 + offsetX, 600 + offsetY, 100, 0, Math.PI * 1.5);
+  ctx.lineTo(800 + offsetX, 600 + offsetY);
+  ctx.fill();
+  //Spidsen/afrundningen på halen
+  ctx.beginPath();
+  ctx.fillStyle = colors.tipTail;
+  ctx.arc(800 + offsetX, 550 + offsetY, 50, 0, Math.PI * 2);
+  ctx.fill();
+
+  //Øje
+  //øjeæble
+  ctx.beginPath();
+  ctx.fillStyle = "white";
+  fillCirc(400 + offsetX, 450 + offsetY, 75);
+  //Propil
+  ctx.beginPath();
+  ctx.fillStyle = "black";
+  fillCirc(390 + offsetX, 460 + offsetY, 25);
+  //Øjenlåg
+  ctx.beginPath();
+  ctx.fillStyle = colors.eyelid;
+  ctx.arc(400 + offsetX, 450 + offsetY, 75, 0, Math.PI * 0.85, false);
+  ctx.fill();
+  //Øjenbryn
+  // ctx.beginPath();
+  // ctx.strokeStyle = "black";
+  // ctx.lineWidth = 15;
+  // ctx.arc(400, 450, 90, 5, Math.PI * 1, true);
+  // ctx.stroke();
+
+  ctx.beginPath();
+  ctx.strokeStyle = "black";
+  ctx.moveTo(315 + offsetX, 450 + offsetY);
+  ctx.lineTo(420 + offsetX, 360 + offsetY);
+  ctx.lineWidth = 15;
+  ctx.stroke();
 }
 
 //FONT
