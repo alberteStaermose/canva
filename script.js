@@ -24,12 +24,21 @@ let colorArray = [
   },
   {
     body: "#FCF570",
-    bodyTwo: "#FAFF15",
+    bodyTwo: "#FFE315",
     head: "#FFFEF0",
     tail: "#E8DA00",
-    tipTail: "#FFE712",
+    tipTail: "#EED100",
     legs: "#CCBA14",
-    eyelid: "#FFE712",
+    eyelid: "#EED100",
+  },
+  {
+    body: "#FFF963",
+    bodyTwo: "#FAFF00",
+    head: "#FFF783",
+    tail: "#F4E711",
+    tipTail: "#FFE500",
+    legs: "#F9E42A",
+    eyelid: "#FFE500",
   },
 ];
 
