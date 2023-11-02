@@ -2,27 +2,59 @@ let canvas = document.querySelector("#myCanvas");
 /** @type {CanvasRenderingContext2D} */
 let ctx = canvas.getContext("2d");
 
-let colors = {
-  body: "#FCF570",
-  bodyTwo: "#FFE315",
-  head: "#FFFEF0",
-  tail: "#E8DA00",
-  tipTail: "#EED100",
-  legs: "#CCC514",
-  eyelid: "#EED100",
-};
+//Et array der deffinerer de forskellige farver kamelæonen skal have
+let colorArray = [
+  {
+    body: "#C7FC70",
+    bodyTwo: "#8AFF15",
+    head: "#F8FFF0",
+    tail: "#ACE800",
+    tipTail: "#85EE00",
+    legs: "#91CC14",
+    eyelid: "#85EE00",
+  },
+  {
+    body: "#E8FC70",
+    bodyTwo: "#C2FF15",
+    head: "#FDFFF0",
+    tail: "#D5E800",
+    tipTail: "#CDEE00",
+    legs: "#B2CC14",
+    eyelid: "#CDEE00",
+  },
+  {
+    body: "#FCF570",
+    bodyTwo: "#FAFF15",
+    head: "#FFFEF0",
+    tail: "#E8DA00",
+    tipTail: "#FFE712",
+    legs: "#CCBA14",
+    eyelid: "#FFE712",
+  },
+];
+
+//deffinerer at current colors er 0
+let currentColors = 0;
+//deffinerer at colors/farverne som er brugt i koden til at farvegive kamelæonen er i et array, som starter ved currentColors som er 0
+let colors = colorArray[currentColors];
+//
+//Deffinerer at offsetAmount er 0, som bruges til vibration - vibration starter ved 0
+let offsetAmount = 0;
+//Deffinerer at X størrelsen på skærmen er 0
 let offsetX = 0;
+//Deffinerer at Y størrelsen på skærmen er 0
 let offsetY = 0;
+//
+//Deffinerer at fontLoaded er false
 let fontLoaded = false;
-let mouseOver = false;
 
 function draw() {
+  offsetX = Math.random() * offsetAmount * 2 - offsetAmount;
+  offsetY = Math.random() * offsetAmount * 2 - offsetAmount;
+
   ctx.shadowBlur = 0;
   ctx.shadowColor = null;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  offsetX += Math.round(Math.random() * 2 - 1);
-  offsetY += Math.round(Math.random() * 2 - 1);
 
   //Baggrund
   const gradient = ctx.createRadialGradient(540, 540, 5, 540, 540, 600);
@@ -78,7 +110,7 @@ function draw() {
   //Fladt stykke efter runding på nummi og inden hale
   ctx.beginPath;
   ctx.fillStyle = gradientBody;
-  ctx.fillRect(700 + offsetX, 500 + offsetY, 200, 100);
+  ctx.fillRect(700 + offsetX, 499 + offsetY, 200, 105);
 
   // Krop
   //Selve kroppen
@@ -92,7 +124,7 @@ function draw() {
   //Forbenfod
   ctx.beginPath();
   ctx.fillStyle = gradientLegs;
-  ctx.roundRect(475 + offsetX, 650 + offsetY, 25, 50, [10, 0, 0, 10]);
+  ctx.roundRect(475 + offsetX, 650 + offsetY, 28, 50, [10, 0, 0, 10]);
   ctx.fill();
   //Bagben
   ctx.beginPath();
@@ -101,7 +133,7 @@ function draw() {
   //BagbenFod
   ctx.beginPath();
   ctx.fillStyle = gradientLegs;
-  ctx.roundRect(625 + offsetX, 650 + offsetY, 25, 50, [10, 0, 0, 10]);
+  ctx.roundRect(625 + offsetX, 650 + offsetY, 28, 50, [10, 0, 0, 10]);
   ctx.fill();
 
   //Hale
@@ -145,12 +177,6 @@ function draw() {
   ctx.arc(400 + offsetX, 450 + offsetY, 75, 0, Math.PI * 0.85, false);
   ctx.fill();
   //Øjenbryn
-  // ctx.beginPath();
-  // ctx.strokeStyle = "black";
-  // ctx.lineWidth = 15;
-  // ctx.arc(400, 450, 90, 5, Math.PI * 1, true);
-  // ctx.stroke();
-
   ctx.beginPath();
   ctx.strokeStyle = "black";
   ctx.moveTo(315 + offsetX, 450 + offsetY);
@@ -160,13 +186,7 @@ function draw() {
 
   if (fontLoaded == true) drawText();
 
-  document.addEventListener("click", (mouseOver) => {
-    if (mouseOver == true) {
-      drawNewColor();
-    } else {
-      requestAnimationFrame(draw);
-    }
-  });
+  requestAnimationFrame(draw);
 }
 
 draw();
@@ -175,17 +195,36 @@ draw();
 //
 //
 //
+//
+//
+//
+//
+//
+//
 //Helper functions
+//Funktion der får til at vibrere og giver kamelæon ny farve ved click
+document.addEventListener("click", (e) => {
+  currentColors++;
+  offsetAmount += 3;
+  if (currentColors == colorArray.length) {
+    currentColors = 0;
+    offsetAmount = 0;
+    offsetX = 0;
+    offsetY = 0;
+  }
+
+  colors = colorArray[currentColors];
+});
+
 //Basic circel - en funktion til en circel, så man blot kan skrive "fillCirc" ligesom rect
 function fillCirc(x, y, radius) {
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2);
   ctx.fill();
 }
-
+//Funktion der indsætter fonte
 function drawText() {
   ctx.beginPath();
-  console.log("Font Loaded");
   ctx.fillStyle = "orangered";
   ctx.font = "140px RacingSansOne";
   ctx.textAlign = "center";
@@ -209,155 +248,6 @@ function drawText() {
   ctx.strokeText("EDITION", x, 970);
   ctx.closePath();
 }
-
-function drawNewColor() {
-  console.log("Ny farve funktion");
-  ctx.shadowBlur = 0;
-  ctx.shadowColor = null;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  offsetX += Math.round(Math.random() * 2 - 1);
-  offsetY += Math.round(Math.random() * 2 - 1);
-
-  //Baggrund
-  const gradient = ctx.createRadialGradient(540, 540, 5, 540, 540, 600);
-  // Farverne i gradienten
-  gradient.addColorStop(0, "red");
-  gradient.addColorStop(1, "blueviolet");
-  //Gradienten
-  ctx.beginPath();
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, 1080, 1080);
-
-  //Gradient til kroppen
-  const gradientBody = ctx.createLinearGradient(
-    300 + offsetX,
-    500 + offsetY,
-    300 + offsetX,
-    700 + offsetY
-  );
-  // Farverne i gradienten
-  gradientBody.addColorStop(0, colors.bodyTwo);
-  gradientBody.addColorStop(0.5, colors.body);
-  gradientBody.addColorStop(1, colors.head);
-
-  //Gradient til benene
-  const gradientLegs = ctx.createLinearGradient(
-    300 + offsetX,
-    400 + offsetY,
-    300 + offsetX,
-    700 + offsetY
-  );
-  // Farverne i gradienten
-  gradientLegs.addColorStop(0, "black");
-  gradientLegs.addColorStop(1, colors.legs);
-
-  // Hoved
-  //Dobbelhage
-  ctx.beginPath();
-  ctx.fillStyle = gradientBody;
-  ctx.arc(350 + offsetX, 500 + offsetY, 180, 0, Math.PI * 0.815, false);
-  ctx.fill();
-  //Pande
-  ctx.beginPath();
-  ctx.fillStyle = gradientBody;
-  ctx.arc(500 + offsetX, 600 + offsetY, 300, 0, Math.PI, true);
-  ctx.fill();
-
-  // Bagdel
-  //Runding på bagdel
-  ctx.beginPath();
-  ctx.fillStyle = gradientBody;
-  ctx.arc(700 + offsetX, 500 + offsetY, 200, 0, Math.PI, true);
-  ctx.fill();
-  //Fladt stykke efter runding på nummi og inden hale
-  ctx.beginPath;
-  ctx.fillStyle = gradientBody;
-  ctx.fillRect(700 + offsetX, 500 + offsetY, 200, 100);
-
-  // Krop
-  //Selve kroppen
-  ctx.beginPath();
-  ctx.fillStyle = gradientBody;
-  ctx.fillRect(500 + offsetX, 300 + offsetY, 200, 300);
-  //Forben
-  ctx.beginPath();
-  ctx.fillStyle = gradientLegs;
-  ctx.fillRect(500 + offsetX, 600 + offsetY, 50, 100);
-  //Forbenfod
-  ctx.beginPath();
-  ctx.fillStyle = gradientLegs;
-  ctx.roundRect(475 + offsetX, 650 + offsetY, 25, 50, [10, 0, 0, 10]);
-  ctx.fill();
-  //Bagben
-  ctx.beginPath();
-  ctx.fillStyle = gradientLegs;
-  ctx.fillRect(650 + offsetX, 600 + offsetY, 50, 100);
-  //BagbenFod
-  ctx.beginPath();
-  ctx.fillStyle = gradientLegs;
-  ctx.roundRect(625 + offsetX, 650 + offsetY, 25, 50, [10, 0, 0, 10]);
-  ctx.fill();
-
-  //Hale
-  //Den store del af halen
-  //Gradient til den store del af halen deffineret
-  const gradientTail = ctx.createRadialGradient(
-    860 + offsetX,
-    600 + offsetY,
-    40,
-    800 + offsetX,
-    600 + offsetY,
-    100
-  );
-  // Farverne i gradienten
-  gradientTail.addColorStop(0, colors.body);
-  gradientTail.addColorStop(1, colors.tipTail);
-  //Den store del af halen starter
-  ctx.beginPath();
-  ctx.fillStyle = gradientTail;
-  ctx.arc(800 + offsetX, 600 + offsetY, 100, 0, Math.PI * 1.5);
-  ctx.lineTo(800 + offsetX, 600 + offsetY);
-  ctx.fill();
-  //Spidsen/afrundningen på halen
-  ctx.beginPath();
-  ctx.fillStyle = colors.tipTail;
-  ctx.arc(800 + offsetX, 550 + offsetY, 50, 0, Math.PI * 2);
-  ctx.fill();
-
-  //Øje
-  //øjeæble
-  ctx.beginPath();
-  ctx.fillStyle = "white";
-  fillCirc(400 + offsetX, 450 + offsetY, 75);
-  //Propil
-  ctx.beginPath();
-  ctx.fillStyle = "black";
-  fillCirc(390 + offsetX, 460 + offsetY, 25);
-  //Øjenlåg
-  ctx.beginPath();
-  ctx.fillStyle = colors.eyelid;
-  ctx.arc(400 + offsetX, 450 + offsetY, 75, 0, Math.PI * 0.85, false);
-  ctx.fill();
-  //Øjenbryn
-  // ctx.beginPath();
-  // ctx.strokeStyle = "black";
-  // ctx.lineWidth = 15;
-  // ctx.arc(400, 450, 90, 5, Math.PI * 1, true);
-  // ctx.stroke();
-
-  ctx.beginPath();
-  ctx.strokeStyle = "black";
-  ctx.moveTo(315 + offsetX, 450 + offsetY);
-  ctx.lineTo(420 + offsetX, 360 + offsetY);
-  ctx.lineWidth = 15;
-  ctx.stroke();
-
-  if (fontLoaded == true) drawText();
-  requestAnimationFrame(draw);
-}
-
-draw();
 
 //FONT
 //Fortæller at en font skal tilføjes til listen af fonte
