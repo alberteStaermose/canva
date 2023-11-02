@@ -6,12 +6,15 @@ let ctx = canvas.getContext("2d");
 let colorArray = [
   {
     body: "#C7FC70",
-    bodyTwo: "#8AFF15",
+    bodyTwo: "#7FFF00",
     head: "#F8FFF0",
     tail: "#ACE800",
     tipTail: "#85EE00",
     legs: "#91CC14",
     eyelid: "#85EE00",
+    eyeColor: "#FFFFFF",
+    background1: "#FF0000",
+    background2: "#8A2BE2",
   },
   {
     body: "#E8FC70",
@@ -21,6 +24,9 @@ let colorArray = [
     tipTail: "#CDEE00",
     legs: "#B2CC14",
     eyelid: "#CDEE00",
+    eyeColor: "#FFFFFF",
+    background1: "#D30000",
+    background2: "#7625C1",
   },
   {
     body: "#FCF570",
@@ -30,6 +36,9 @@ let colorArray = [
     tipTail: "#EED100",
     legs: "#CCBA14",
     eyelid: "#EED100",
+    eyeColor: "#FFFFFF",
+    background1: "#990101",
+    background2: "#6920AD",
   },
   {
     body: "#FFF963",
@@ -39,6 +48,21 @@ let colorArray = [
     tipTail: "#FFE500",
     legs: "#F9E42A",
     eyelid: "#FFE500",
+    eyeColor: "#FFFFFF",
+    background1: "#760000",
+    background2: "#4F1882",
+  },
+  {
+    body: "#FF6363",
+    bodyTwo: "#FF0000",
+    head: "#FFC683",
+    tail: "#F44711",
+    tipTail: "#FF4D00",
+    legs: "#F95C2A",
+    eyelid: "#FF4D00",
+    eyeColor: "#E55F5F",
+    background1: "#600000",
+    background2: "#380F5D",
   },
 ];
 
@@ -68,8 +92,8 @@ function draw() {
   //Baggrund
   const gradient = ctx.createRadialGradient(540, 540, 5, 540, 540, 600);
   // Farverne i gradienten
-  gradient.addColorStop(0, "red");
-  gradient.addColorStop(1, "blueviolet");
+  gradient.addColorStop(0, colors.background1);
+  gradient.addColorStop(1, colors.background2);
   //Gradienten
   ctx.beginPath();
   ctx.fillStyle = gradient;
@@ -174,7 +198,7 @@ function draw() {
   //Øje
   //øjeæble
   ctx.beginPath();
-  ctx.fillStyle = "white";
+  ctx.fillStyle = colors.eyeColor;
   fillCirc(400 + offsetX, 450 + offsetY, 75);
   //Propil
   ctx.beginPath();
