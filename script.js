@@ -212,6 +212,7 @@ function draw() {
   //Øjenbryn
   ctx.beginPath();
   ctx.strokeStyle = "black";
+  ctx.lineCap = "round";
   ctx.moveTo(315 + offsetX, 450 + offsetY);
   ctx.lineTo(420 + offsetX, 360 + offsetY);
   ctx.lineWidth = 15;
